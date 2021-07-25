@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <gtest/gtest.h>
-#include "../src/Tensor.h"
+#include "Tensor.h"
 //
 //// Testcase name, Testname
 //

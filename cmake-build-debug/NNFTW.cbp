@@ -46,6 +46,7 @@
 				<Compiler>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googletest/include"/>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googlemock/include"/>
+					<Add directory="/Users/gautamsharma/Desktop/C++/NNFTW/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
@@ -69,6 +70,7 @@
 				<Compiler>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googletest/include"/>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googlemock/include"/>
+					<Add directory="/Users/gautamsharma/Desktop/C++/NNFTW/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
@@ -92,6 +94,7 @@
 				<Compiler>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googletest/include"/>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googlemock/include"/>
+					<Add directory="/Users/gautamsharma/Desktop/C++/NNFTW/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
@@ -115,6 +118,7 @@
 				<Compiler>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googletest/include"/>
 					<Add directory="/Users/gautamsharma/Desktop/C++/googletest/googlemock/include"/>
+					<Add directory="/Users/gautamsharma/Desktop/C++/NNFTW/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
@@ -134,10 +138,6 @@
 			<Option target="NNFTW"/>
 		</Unit>
 		<Unit filename="/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.cpp">
-			<Option target="test"/>
-			<Option target="NNFTW"/>
-		</Unit>
-		<Unit filename="/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h">
 			<Option target="test"/>
 			<Option target="NNFTW"/>
 		</Unit>

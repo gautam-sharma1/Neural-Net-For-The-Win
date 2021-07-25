@@ -6,17 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/gautamsharma/Desktop/C++/NNFTW/main.cpp
-iostream
--
-src/Tensor.h
-/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
-
-/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.cpp
-Tensor.h
-/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
-
-/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
+../include/Tensor.h
 vector
 -
 cstdarg
@@ -25,4 +15,24 @@ iostream
 -
 initializer_list
 -
+
+/Users/gautamsharma/Desktop/C++/NNFTW/include/Tensor.h
+vector
+-
+cstdarg
+-
+iostream
+-
+initializer_list
+-
+
+/Users/gautamsharma/Desktop/C++/NNFTW/main.cpp
+iostream
+-
+include/Tensor.h
+/Users/gautamsharma/Desktop/C++/NNFTW/include/Tensor.h
+
+/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.cpp
+Tensor.h
+/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
 

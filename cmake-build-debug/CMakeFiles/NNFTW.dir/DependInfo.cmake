@@ -13,6 +13,7 @@ set(CMAKE_CXX_COMPILER_ID "AppleClang")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/Users/gautamsharma/Desktop/C++/googletest/googletest/include"
   "/Users/gautamsharma/Desktop/C++/googletest/googlemock/include"
+  "../include"
   )
 
 # Targets to which this target links.
