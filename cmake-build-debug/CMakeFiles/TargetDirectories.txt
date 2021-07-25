@@ -1,0 +1,4 @@
+/Users/gautamsharma/Desktop/C++/NNFTW/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/gautamsharma/Desktop/C++/NNFTW/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/gautamsharma/Desktop/C++/NNFTW/cmake-build-debug/CMakeFiles/test.dir
+/Users/gautamsharma/Desktop/C++/NNFTW/cmake-build-debug/CMakeFiles/NNFTW.dir

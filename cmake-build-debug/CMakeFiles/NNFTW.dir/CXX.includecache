@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/gautamsharma/Desktop/C++/NNFTW/main.cpp
+iostream
+-
+src/Tensor.h
+/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
+
+/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.cpp
+Tensor.h
+/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
+
+/Users/gautamsharma/Desktop/C++/NNFTW/src/Tensor.h
+vector
+-
+cstdarg
+-
+iostream
+-
+initializer_list
+-
+
