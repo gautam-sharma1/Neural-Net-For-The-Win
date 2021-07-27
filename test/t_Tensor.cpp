@@ -48,7 +48,6 @@ TEST(GTtest, CanAdd){
     Tensor<float> t1({1,2,3,4,5});
     Tensor<float> t2({1,2,3,4,5});
     Tensor<float> t3 = t1+t2;
-    //ASSERT_EQ(EXPECTED_SIZE, ACTUAL_SIZE);
 }
 
 TEST(GTtest, CanAddSingleElementTensorCorrectly){
@@ -64,8 +63,9 @@ TEST(GTtest, CanAddSingleElementTensorCorrectly){
     Tensor<float> EXPECTED2 = {101.11,122.22,102.3,104.45,105.778};
 
     ASSERT_TRUE(EXPECTED1 == ACTUAL1);
-    ASSERT_FALSE(ACTUAL1 == t1);     // to test if t1 is not modified in place
+    ASSERT_FALSE(ACTUAL1 == t1);     // test if t1 is not modified in place
     ASSERT_FALSE(EXPECTED2 == ACTUAL2);
+    ASSERT_FALSE(ACTUAL2 == t3);     // test if t3 is not modified in place
 }
 
 TEST(GTtest, CanAddMultiElementTensorCorrectly){
@@ -85,7 +85,7 @@ TEST(GTtest, CanAddMultiElementTensorCorrectlyInPlace){
     Tensor<int> EXPECTED = {2,4,6,8,10};
 
     ASSERT_TRUE(EXPECTED == ACTUAL);
-    ASSERT_TRUE(EXPECTED == t1);
+    ASSERT_TRUE(EXPECTED == t1);     // test if t1 is modified in place
 }
 
 //
