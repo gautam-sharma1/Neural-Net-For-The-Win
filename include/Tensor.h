@@ -3,7 +3,6 @@
 //
 
 #include <vector>
-#include <cstdarg>
 #include <iostream>
 #include <initializer_list>
 
@@ -13,13 +12,14 @@
 
 
 template<class T>
-class Tensor {
+class Tensor{
 public:
     /*
      * Just used for testing. Do not use in production
      */
     Tensor() = default;
     Tensor(std::initializer_list<T> const & tensor):tensor_(tensor){};
+
 
 private:
     explicit Tensor(std::vector<T> const & tensor){
@@ -33,7 +33,7 @@ public:
     //Tensor& operator-(Tensor &other);
 
 //    Tensor operator*(Tensor &other);
-     [[nodiscard]] size_t size() const noexcept;
+     [[nodiscard]] virtual size_t size() const noexcept;
 
     /*
      * Just a way to access the private member "tensor_"
