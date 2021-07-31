@@ -33,7 +33,7 @@ public:
     //Tensor& operator-(Tensor &other);
 
 //    Tensor operator*(Tensor &other);
-     [[nodiscard]] virtual size_t size() const noexcept;
+     [[nodiscard]] size_t size() const noexcept;
 
     /*
      * Just a way to access the private member "tensor_"
@@ -41,9 +41,14 @@ public:
     */
     const std::vector<T>& operator ()() const;
 
+    const T& operator[](int idx)const{
+        return this->tensor_.at(idx);
+    }
     Tensor& operator = (const Tensor &other);
 
     inline bool operator == (Tensor &rhs) const;
+
+    inline bool operator != (Tensor &rhs) const;
 
     /*
      * Different template argument T1 since ostream is a friend and not part of the Tensor class
@@ -143,6 +148,11 @@ Tensor<T>& Tensor<T>::plus(const Tensor &other) {
     }
 
     return *this;
+}
+
+template<class T>
+bool Tensor<T>::operator!=(Tensor &rhs) const {
+    return !(*this == rhs);
 }
 
 #endif //NNFTW_TENSOR_H
