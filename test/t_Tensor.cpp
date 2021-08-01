@@ -67,6 +67,22 @@ TEST(GTtest, CanAddSingleElementTensorCorrectly){
     ASSERT_FALSE(EXPECTED2 == ACTUAL2);
     ASSERT_FALSE(ACTUAL2 == t3);     // test if t3 is not modified in place
 }
+TEST(GTtest, CanSubtractSingleElementTensorCorrectly){
+    Tensor<int> t1({1,2,3,4,5});
+    Tensor<int> t2({100});
+    Tensor<int> ACTUAL1 = t1-t2;
+    Tensor<int> EXPECTED1 = {-99,-98,-97,-96,-95};
+
+
+    Tensor<float> t3({1.11,22.22,2.3,4.4});
+    Tensor<float> t4({100});
+    Tensor<float> ACTUAL2 = t3-t4;
+    Tensor<float> EXPECTED2 = {-98.89,-77.78,-97.7,-95.6};
+    ASSERT_TRUE(EXPECTED1 == ACTUAL1);
+    ASSERT_FALSE(ACTUAL1 == t1);     // test if t1 is not modified in place
+    ASSERT_TRUE(EXPECTED2 == ACTUAL2);
+    ASSERT_FALSE(ACTUAL2 == t3);     // test if t3 is not modified in place
+}
 
 TEST(GTtest, CanAddMultiElementTensorCorrectly){
     Tensor<int> t1({1,2,3,4,5});

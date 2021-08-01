@@ -103,6 +103,74 @@ TEST(GTtest, CanAddCorrectlyInPlaceTensor2D){
 
 }
 
+TEST(GTtest, CanSubtractTensor2D){
+    Tensor<float> t1 ({1,2,3});
+    Tensor<float> t2({3,4,5});
+    Tensor<float> t3({0,0,0});
+
+    /*
+     * t4 = t5 =
+     * {1,2,3}
+     * {3,4,5}
+     */
+    Tensor2D<float> t4 (   {t1,t2} );
+    Tensor2D<float> t5 (   {t1,t2} );
+    Tensor2D<float> EXPECTED_TENSOR2D_1({t3,t3});
+
+    /*
+     * t5-t4 =
+     * {0,0,0}
+     * {0,0,0}
+     */
+    auto ACTUAL_TENSOR2D_1 = t5-t4;
+    ASSERT_TRUE(EXPECTED_TENSOR2D_1==ACTUAL_TENSOR2D_1);
+
+
+    Tensor<float> t6 ({11.2,2.3,35.1});
+    Tensor<float> t7({3,4,5});
+    Tensor<float> t8({3.4,7.8,9.1});
+
+    /*
+     * t9 =
+     * {11.2, 2.3, 35.1}
+     * {3 ,   4,   5}
+     *
+     * t10 =
+     * {3 ,   4,   5}
+     * {3.4, 7.8, 9.1}
+     */
+    Tensor2D<float> t9 (   {t6,t7} );
+    Tensor2D<float> t10 (   {t7,t8} );
+
+    /*
+     * EXPECTED TENSOR = t9-t10=
+     * {8.2, -1.7, 30.1}
+     * {-0.4, -3.8, -4.1}
+     */
+    Tensor<float> t11({8.2, -1.7, 30.1});
+    Tensor<float> t12({-0.4, -3.8, -4.1});
+    Tensor2D<float> EXPECTED_TENSOR2D_2({t11,t12});
+
+    Tensor2D<float> ACTUAL_TENSOR2D_2 = t9-t10;
+//    std::cout<<"actual"<<std::endl;
+//    std::cout<<ACTUAL_TENSOR2D_2<<std::endl;
+//    std::cout<<"expected"<<std::endl;
+//    std::cout<<EXPECTED_TENSOR2D_2<<std::endl;
+    /*
+     * Workaround to compare floats
+     */
+    auto tensor_shape = EXPECTED_TENSOR2D_2.size();
+    for(int tensor_row_idx = 0; tensor_row_idx <  tensor_shape .first_dimension; tensor_row_idx++){
+        for(int tensor_col_idx = 0; tensor_col_idx <  tensor_shape .second_dimension; tensor_col_idx++){
+            ASSERT_FLOAT_EQ(EXPECTED_TENSOR2D_2[tensor_row_idx][tensor_col_idx],
+                            ACTUAL_TENSOR2D_2[tensor_row_idx][tensor_col_idx]);
+        }
+    }
+
+
+}
+
+
 
 //TEST(GTtest, CanReturnTensor){
 //    Tensor<float> t1 ({1,2.555,-6.667,7,8});

@@ -95,12 +95,35 @@ public:
         return Tensor2D<T>(result);
     }
 
+    /*
+    * Returns a new vector
+    * NOTE: Purposely not returned by reference :)
+    */
+    Tensor2D<T> operator-(const Tensor2D &other) {
+        /*
+         * Two tensors should either be the same size or the second tensor should be a single elements tensor to allow
+         * broadcasting
+         */
+        std::vector<Tensor<T>> result;
+        assert(other.size() == this->size());
+
+        for (auto r = 0; r < rows_; r++) {
+            Tensor<T> temp1 = this->tensor2D_[r];
+            Tensor<T> temp2 = other()[r]; // Tensor<T>
+            Tensor<T> temp_result = temp1 - temp2;
+            result.push_back(temp_result);
+        }
+
+        return Tensor2D<T>(result);
+    }
+
+
 
      /*
      * Modifies in place
      *
     */
-    void  plus(const Tensor2D &other) {
+    void plus(const Tensor2D &other) {
 
         assert(other.size() == this->size());
 
@@ -111,6 +134,18 @@ public:
         }
 
     }
+
+//    void minus(const Tensor2D &other) {
+//
+//        assert(other.size() == this->size());
+//
+//        for (auto r = 0; r < rows_; r++) {
+//            Tensor<T> &temp1 = this->tensor2D_[r];
+//            Tensor<T> temp2 = other()[r]; // Tensor<T>
+//            temp1.minus(temp2);
+//        }
+//
+//    }
 
 
 
@@ -131,7 +166,14 @@ public:
 template<class T1>
 std::ostream& operator<<(std::ostream& os, Tensor2D<T1> &input)
 {
-
+    auto input_shape = input.size();
+    std::cout<<"Tensor2D {"<<std::endl;
+    for(int tensor_idx = 0; tensor_idx <  input_shape.first_dimension; tensor_idx++){
+        // TODO: Not efficient to make a new Tensor just to print
+        Tensor<float> temp  = input[tensor_idx];
+        std::cout<<temp;
+    }
+    std::cout<<" }"<<std::endl;
 }
 
 

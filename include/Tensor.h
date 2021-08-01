@@ -29,8 +29,28 @@ private:
 //    Tensor multiply();
 public:
     Tensor& plus(const Tensor &other); // performs addition inplace
+
+    /*
+     * wrapper to reuse for addition and subtraction
+     */
+    Tensor addOrSubtract(const Tensor &other , std::binary_function<T,T,T>comp1, void (*comp2 )(T &)){
+        std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
+        if(other.size() > 1 ) {
+            assert(other.size() == this->size());
+            std::transform (this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), comp1());
+        }
+
+            // other is a single element tensor
+        else {
+            assert(other.size() == 1);
+            std::for_each(dest.begin(), dest.end(), comp2);
+        }
+
+        return Tensor<T>(dest);
+    }
+
     Tensor operator+(const Tensor &other);
-    //Tensor& operator-(Tensor &other);
+    Tensor operator-(const Tensor &other);
 
 //    Tensor operator*(Tensor &other);
      [[nodiscard]] size_t size() const noexcept;
@@ -115,6 +135,32 @@ Tensor<T> Tensor<T>::operator+(const Tensor &other) {
 
     return Tensor<T>(dest);
 }
+
+/*
+ * Returns a new vector
+ */
+template<class T>
+Tensor<T> Tensor<T>::operator-(const Tensor &other) {
+    /*
+     * Two tensors should either be the same size or the second tensor should be a single elements tensor to allow
+     *  broadcasting
+     */
+    std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
+
+    if(other.size() > 1 ) {
+        assert(other.size() == this->size());
+        std::transform (this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), std::minus<T>());
+    }
+
+        // other is a single element tensor
+    else {
+        assert(other.size() == 1);
+        std::for_each(dest.begin(), dest.end(), [&other](T& d) { d-=other().front();});
+    }
+
+    return Tensor<T>(dest);
+}
+
 
 template<class T>
 Tensor<T> &Tensor<T>::operator=(const Tensor &other) {

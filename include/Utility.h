@@ -9,6 +9,7 @@
 
 
 
+
 struct shape{
     size_t first_dimension;
     size_t second_dimension;
