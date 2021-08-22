@@ -6,6 +6,8 @@
 #include <iostream>
 #include <initializer_list>
 
+#include "Utility.h"
+
 #ifndef NNFTW_TENSOR_H
 #define NNFTW_TENSOR_H
 
@@ -17,38 +19,95 @@ public:
     /*
      * Just used for testing. Do not use in production
      */
-    Tensor() = default;
-    Tensor(std::initializer_list<T> const & tensor):tensor_(tensor){};
-
-
-private:
+    Tensor() noexcept = default;
+    Tensor(const size_t& prealloc) noexcept: tensor_(prealloc){};
+    Tensor(const Tensor& other) noexcept: tensor_(other())
+    {//std::cout<<"Copy constructor executed"<<std::endl;
+    };
+    Tensor(const std::initializer_list<T> & tensor) noexcept:tensor_(tensor)
+    {//std::cout<<"Init constructor executed"<<std::endl;
+    };
+    Tensor(const Tensor&& rhs) noexcept: tensor_(std::move(rhs()))
+    {//std::cout<<"Move constructor executed"<<std::endl;
+    };
     explicit Tensor(std::vector<T> const & tensor){
         std::copy(tensor.begin(), tensor.end(), std::back_inserter(tensor_));
     }
 
+private:
+
+
 //    Tensor multiply();
 public:
+    Tensor& multiply(const Tensor &other){
+        assert(other.size() == this->size());
+        std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), this->tensor_.begin(), std::multiplies<T>());
+        return *this;
+    }
+
+    Tensor operator *(const Tensor &other){
+        assert(other.size() == this->size());
+        std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
+        std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), std::multiplies<T>());
+        return Tensor<T>(dest);
+    }
+
     Tensor& plus(const Tensor &other); // performs addition inplace
 
+    // TODO:
     /*
      * wrapper to reuse for addition and subtraction
      */
-    Tensor addOrSubtract(const Tensor &other , std::binary_function<T,T,T>comp1, void (*comp2 )(T &)){
+    Tensor addOrSubtractByCopy(const Tensor &other , operation op ){
         std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
         if(other.size() > 1 ) {
             assert(other.size() == this->size());
-            std::transform (this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), comp1());
+            if(op == operation::ADD){
+                std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), std::plus<T>());}
+            else{
+                std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), std::minus<T>());}
+
+        }
+            // other is a single element tensor
+            else {
+            assert(other.size() == 1);
+            if (op == operation::ADD) {
+                std::for_each(dest.begin(), dest.end(), [&other](T &d) { d += other().front(); });
+            } else {
+                std::for_each(dest.begin(), dest.end(), [&other](T &d) { d -= other().front(); });
+            }
+        }
+        return Tensor<T>(dest);
+    }
+
+    Tensor& addOrSubtractInPlace(const Tensor &other , operation op ){
+        if(other.size() > 1 ) {
+            assert(other.size() == this->size());
+            if (op == operation::ADD) {
+                std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), this->tensor_.begin(),
+                               std::plus<T>());
+            }
+            else{
+                std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), this->tensor_.begin(),
+                               std::minus<T>());
+            }
         }
 
             // other is a single element tensor
         else {
             assert(other.size() == 1);
-            std::for_each(dest.begin(), dest.end(), comp2);
+            if(op == operation::ADD) {
+                std::for_each(this->tensor_.begin(), this->tensor_.end(), [&other](T &d) { d += other().front(); });
+            }
+            else{
+                std::for_each(this->tensor_.begin(), this->tensor_.end(), [&other](T &d) { d -= other().front(); });
+            }
         }
 
-        return Tensor<T>(dest);
+        return *this;
     }
 
+    Tensor& minus(const Tensor &other);
     Tensor operator+(const Tensor &other);
     Tensor operator-(const Tensor &other);
 
@@ -61,9 +120,13 @@ public:
     */
     const std::vector<T>& operator ()() const;
 
+    /*
+     * returns element at index idx
+     */
     const T& operator[](int idx)const{
         return this->tensor_.at(idx);
     }
+
     Tensor& operator = (const Tensor &other);
 
     inline bool operator == (Tensor &rhs) const;
@@ -120,20 +183,7 @@ Tensor<T> Tensor<T>::operator+(const Tensor &other) {
      * Two tensors should either be the same size or the second tensor should be a single elements tensor to allow
      *  broadcasting
      */
-    std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
-
-    if(other.size() > 1 ) {
-        assert(other.size() == this->size());
-        std::transform (this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), std::plus<T>());
-    }
-
-        // other is a single element tensor
-    else {
-        assert(other.size() == 1);
-        std::for_each(dest.begin(), dest.end(), [&other](T& d) { d+=other().front();});
-    }
-
-    return Tensor<T>(dest);
+        return this->addOrSubtractByCopy(other, operation::ADD);
 }
 
 /*
@@ -145,20 +195,7 @@ Tensor<T> Tensor<T>::operator-(const Tensor &other) {
      * Two tensors should either be the same size or the second tensor should be a single elements tensor to allow
      *  broadcasting
      */
-    std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
-
-    if(other.size() > 1 ) {
-        assert(other.size() == this->size());
-        std::transform (this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(), std::minus<T>());
-    }
-
-        // other is a single element tensor
-    else {
-        assert(other.size() == 1);
-        std::for_each(dest.begin(), dest.end(), [&other](T& d) { d-=other().front();});
-    }
-
-    return Tensor<T>(dest);
+    return this->addOrSubtractByCopy(other, operation::SUBTRACT);
 }
 
 
@@ -167,6 +204,7 @@ Tensor<T> &Tensor<T>::operator=(const Tensor &other) {
     this->tensor_(other());
     return *this;
 }
+
 
 template<class T>
 bool Tensor<T>::operator==(Tensor &rhs) const {
@@ -182,23 +220,20 @@ const std::vector<T> &Tensor<T>::operator()() const {
 template<class T>
 Tensor<T>& Tensor<T>::plus(const Tensor &other) {
 
-    if(other.size() > 1 ) {
-        assert(other.size() == this->size());
-        std::transform (this->tensor_.begin(), this->tensor_.end(), other().begin(), this->tensor_.begin(), std::plus<T>());
-    }
+    return this->addOrSubtractInPlace(other, operation::ADD);
 
-        // other is a single element tensor
-    else {
-        assert(other.size() == 1);
-        std::for_each(this->tensor_.begin(), this->tensor_.end(), [&other](T& d) { d+=other().front();});
-    }
+}
 
-    return *this;
+template<class T>
+Tensor<T> &Tensor<T>::minus(const Tensor &other) {
+    return this->addOrSubtractInPlace(other, operation::SUBTRACT);
 }
 
 template<class T>
 bool Tensor<T>::operator!=(Tensor &rhs) const {
     return !(*this == rhs);
 }
+
+
 
 #endif //NNFTW_TENSOR_H

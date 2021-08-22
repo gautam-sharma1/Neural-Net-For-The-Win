@@ -152,10 +152,7 @@ TEST(GTtest, CanSubtractTensor2D){
     Tensor2D<float> EXPECTED_TENSOR2D_2({t11,t12});
 
     Tensor2D<float> ACTUAL_TENSOR2D_2 = t9-t10;
-//    std::cout<<"actual"<<std::endl;
-//    std::cout<<ACTUAL_TENSOR2D_2<<std::endl;
-//    std::cout<<"expected"<<std::endl;
-//    std::cout<<EXPECTED_TENSOR2D_2<<std::endl;
+
     /*
      * Workaround to compare floats
      */
@@ -172,11 +169,26 @@ TEST(GTtest, CanSubtractTensor2D){
 
 
 
-//TEST(GTtest, CanReturnTensor){
-//    Tensor<float> t1 ({1,2.555,-6.667,7,8});
-//    Tensor<float> t2({11.333,22.56,36.78,94.89,-51.43});
-//    Tensor2D<float> t4 (   {t1,t2} );
-//    Tensor2D EXPECTED_TENSOR2D = Tensor2D<float>({t1,t2});
-//    Tensor2D ACTUAL_TENSOR2D = t4();
-//    ASSERT_EQ(EXPECTED_SIZE, ACTUAL_SIZE);
-//}
+TEST(GTtest, CanSubtractCorrectlyInPlaceTensor2D){
+    Tensor<float> t1 ({1.11,2.22,3.33});
+    Tensor<float> t2({3.33,4.33,5.55});
+
+    /*
+     * t4 = t5 =
+     * {1.11,2.22,3.33}
+     * {3.33,4.33,5.55}
+     */
+    Tensor2D<float> t4 (   {t1,t2} );
+    Tensor2D<float> t5 (   {t1,t2} );
+
+
+    /*
+     * t4-t5 =
+     * {0.00,0.00,0.00}
+     * {0.00,0.00,0.00}
+     */
+    auto EXPECTED_TENSOR2D = t4-t5;
+    t4.minus(t5);
+    ASSERT_TRUE(EXPECTED_TENSOR2D==t4);
+}
+

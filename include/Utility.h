@@ -5,7 +5,12 @@
 #ifndef NNFTW_UTILITY_H
 #define NNFTW_UTILITY_H
 #include <vector>
+#include <map>
 
+enum operation{
+    ADD = 0,
+    SUBTRACT = 1
+};
 
 
 

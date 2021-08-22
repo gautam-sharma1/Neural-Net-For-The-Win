@@ -120,6 +120,20 @@ TEST(GTtest, OverloadSquareBracketOperatorTensor){
     ASSERT_EQ(EXPECTED_FOURTH_ELEMENT_t2, ACTUAL_FOURTH_ELEMENT_t2);
 }
 
+
+TEST(GTtest, CanMultiplyInPlace){
+    Tensor<float> t1({0,1,22,33,4});
+    Tensor<float> t2({0,1,2,3,4});
+    Tensor<float> ACTUAL_1 = t1.multiply(t2);
+    Tensor<float> EXPECTED_1 = {0,1,44,99,16};
+
+    ASSERT_TRUE(EXPECTED_1 == ACTUAL_1);
+    ASSERT_TRUE(t1 == ACTUAL_1); // should modify t1 in place
+
+}
+
+
+
 //
 //TEST(GTTest, SimpleAssert2){
 //    ASSERT_EQ(1,2);
