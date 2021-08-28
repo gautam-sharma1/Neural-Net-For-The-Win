@@ -7,7 +7,7 @@
 #include <cassert>
 #include "Tensor2D.h"
 #include "Utility.h"
-
+using namespace NNFTW;
 
 
 TEST(GTtest, CanInitializeTensor){
@@ -191,4 +191,7 @@ TEST(GTtest, CanSubtractCorrectlyInPlaceTensor2D){
     t4.minus(t5);
     ASSERT_TRUE(EXPECTED_TENSOR2D==t4);
 }
+
+// TODO: CanMultiply
+
 

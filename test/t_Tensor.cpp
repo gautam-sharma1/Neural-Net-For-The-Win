@@ -4,27 +4,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include "Tensor.h"
-//
-//// Testcase name, Testname
-//
-//// EXPECT_ macro will indicate a failure but do not abort the current test
-//// ASSERT_ macro will abort the current test
-//// ASSERT_FALSE
-//
-//// ASSERT_EQ
-//// ASSERT_NE
-//// ASSERT_LT
-//// ASSERT_LE
-//// ASSERT_GT
-//// ASSERT_GE
-//// ASSERT_FLOAT_EQ(1.0001f, 1.0001f)
-//// ASSERT_DOUBLE_EQ(1.0001, 1.0001)
-//// ASSERT_NEAR(1.0001, 1.0001, .0001)
-//// ASSERT_THROW(method, std::invalid_argument)
-//// -gtest_shuffle
-//// -gtest_repeat
-//
-//
+using namespace NNFTW;
 
 TEST(GTtest, CanInitializeInt){
     Tensor<int8_t> t1({1,2,3,4,5});

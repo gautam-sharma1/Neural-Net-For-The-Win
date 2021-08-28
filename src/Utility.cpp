@@ -3,10 +3,12 @@
 //
 
 #include "Utility.h"
-bool shape::operator == (const shape &rhs) const{
+using namespace NNFTW;
+
+bool shape::operator==(const shape &rhs) const {
     return first_dimension == rhs.first_dimension && second_dimension == rhs.second_dimension;
 }
 
-bool shape::operator != (const shape &rhs) const{
+bool shape::operator!=(const shape &rhs) const {
     return !(shape::operator==(rhs));
 }

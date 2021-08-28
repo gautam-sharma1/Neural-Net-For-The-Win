@@ -4,6 +4,7 @@
 #include "include/Tensor2D.h"
 #include "include/Utility.h"
 using namespace std;
+using namespace NNFTW;
 
 int main() {
     Tensor<float> t ({1,2.555,3,4,5,6.667,7,8});

@@ -5,8 +5,8 @@
 #ifndef NNFTW_CONSTANTS_H
 #define NNFTW_CONSTANTS_H
 
-
-constexpr errno_t SIZE_MISMATCH_ERROR = -99;
-
+namespace NNFTW {
+    constexpr errno_t SIZE_MISMATCH_ERROR = -99;
+}
 
 #endif //NNFTW_CONSTANTS_H

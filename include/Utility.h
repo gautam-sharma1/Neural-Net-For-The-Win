@@ -7,21 +7,22 @@
 #include <vector>
 #include <map>
 
-enum operation{
-    ADD = 0,
-    SUBTRACT = 1
-};
+namespace NNFTW {
+    enum operation {
+        ADD = 0,
+        SUBTRACT = 1
+    };
 
 
+    struct shape {
+        size_t first_dimension;
+        size_t second_dimension;
 
+        bool operator==(const shape &rhs) const;
 
-struct shape{
-    size_t first_dimension;
-    size_t second_dimension;
-    bool operator == (const shape &rhs) const;
-    bool operator != (const shape &rhs) const;
+        bool operator!=(const shape &rhs) const;
 
-};
-
+    };
+}
 
 #endif //NNFTW_UTILITY_H
