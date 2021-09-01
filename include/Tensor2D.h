@@ -11,6 +11,7 @@
 #include "Utility.h"
 #include "Tensor.h"
 #include "Constants.h"
+#include "Directives.h"
 
 namespace NNFTW {
     template<class T>
@@ -57,7 +58,7 @@ namespace NNFTW {
         };
 
         // return rows, columns of the Tensor
-        [[nodiscard]] shape size() const noexcept {
+        shape size() const noexcept {
             return shape({rows_, cols_});
         }
 
@@ -97,7 +98,7 @@ namespace NNFTW {
 
         /*
         * Returns a new vector
-         * NOTE: Purposely not returned by reference :)
+         * @NOTE: Purposely not returned by reference :)
         */
         Tensor2D<T> operator+(const Tensor2D &other) {
             /*
@@ -106,7 +107,7 @@ namespace NNFTW {
              */
             std::vector<Tensor<T>>
                     result;
-            assert(other.size() == this->size());
+            __ASSERT__(other.size() == this->size());
 
             for (auto r = 0; r < rows_; r++) {
                 Tensor<T> temp1 = this->tensor2D_[r];
@@ -120,7 +121,7 @@ namespace NNFTW {
 
         /*
         * Returns a new vector
-        * NOTE: Purposely not returned by reference :)
+        * @NOTE: Purposely not returned by reference :)
         */
         Tensor2D<T> operator-(const Tensor2D &other) {
             /*
@@ -129,7 +130,7 @@ namespace NNFTW {
              */
             std::vector<Tensor<T>>
                     result;
-            assert(other.size() == this->size());
+            __ASSERT__(other.size() == this->size());
 
             for (auto r = 0; r < rows_; r++) {
                 Tensor<T> temp1 = this->tensor2D_[r];
@@ -162,8 +163,9 @@ namespace NNFTW {
         *
         */
         Tensor2D operator*(const Tensor2D &other) {
-            assert(other.size().first_dimension == this->size().second_dimension);
+            __ASSERT__(other.size().first_dimension == this->size().second_dimension);
             shape s = other.size();
+            // TODO: investigate this weird behaviour
             std::vector<Tensor<T>> result;//(this->size().first_dimension);//,Tensor<T>(s.second_dimension));
             result.reserve(this->size().first_dimension);
             // Matrix multiplication
@@ -184,7 +186,6 @@ namespace NNFTW {
 
         }
 
-        // TODO:
 
         /*
         * Modifies in place
@@ -192,7 +193,7 @@ namespace NNFTW {
        */
         Tensor2D &plus(const Tensor2D &other) {
 
-            assert(other.size() == this->size());
+            __ASSERT__(other.size() == this->size());
 
             for (auto r = 0; r < rows_; r++) {
                 Tensor<T> &temp1 = this->tensor2D_[r];
@@ -204,7 +205,7 @@ namespace NNFTW {
 
         Tensor2D &minus(const Tensor2D &other) {
 
-            assert(other.size() == this->size());
+            __ASSERT__(other.size() == this->size());
 
             for (auto r = 0; r < rows_; r++) {
                 Tensor<T> &temp1 = this->tensor2D_[r];

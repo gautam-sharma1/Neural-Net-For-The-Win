@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(NNFTW)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories(/Users/gautamsharma/Desktop/C++/googletest/googletest/include/)
 include_directories(/Users/gautamsharma/Desktop/C++/googletest/googlemock/include/)

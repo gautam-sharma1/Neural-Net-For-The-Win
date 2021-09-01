@@ -5,9 +5,8 @@
 #include <vector>
 #include <iostream>
 #include <initializer_list>
-
 #include "Utility.h"
-
+#include "Directives.h"
 #ifndef NNFTW_TENSOR_H
 #define NNFTW_TENSOR_H
 
@@ -45,14 +44,14 @@ namespace NNFTW {
 //    Tensor multiply();
     public:
         Tensor &multiply(const Tensor &other) {
-            assert(other.size() == this->size());
+            __ASSERT__(other.size() == this->size());
             std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), this->tensor_.begin(),
                            std::multiplies<T>());
             return *this;
         }
 
         Tensor operator*(const Tensor &other) {
-            assert(other.size() == this->size());
+            __ASSERT__(other.size() == this->size());
             std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
             std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(),
                            std::multiplies<T>());
@@ -68,7 +67,7 @@ namespace NNFTW {
         Tensor addOrSubtractByCopy(const Tensor &other, operation op) {
             std::vector<T> dest(this->tensor_.begin(), this->tensor_.end());
             if (other.size() > 1) {
-                assert(other.size() == this->size());
+                __ASSERT__(other.size() == this->size());
                 if (op == operation::ADD) {
                     std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), dest.begin(),
                                    std::plus<T>());
@@ -80,7 +79,7 @@ namespace NNFTW {
             }
                 // other is a single element tensor
             else {
-                assert(other.size() == 1);
+                __ASSERT__(other.size() == 1);
                 if (op == operation::ADD) {
                     std::for_each(dest.begin(), dest.end(), [&other](T &d) { d += other().front(); });
                 } else {
@@ -92,7 +91,7 @@ namespace NNFTW {
 
         Tensor &addOrSubtractInPlace(const Tensor &other, operation op) {
             if (other.size() > 1) {
-                assert(other.size() == this->size());
+                __ASSERT__(other.size() == this->size());
                 if (op == operation::ADD) {
                     std::transform(this->tensor_.begin(), this->tensor_.end(), other().begin(), this->tensor_.begin(),
                                    std::plus<T>());
@@ -104,7 +103,7 @@ namespace NNFTW {
 
                 // other is a single element tensor
             else {
-                assert(other.size() == 1);
+                __ASSERT__(other.size() == 1);
                 if (op == operation::ADD) {
                     std::for_each(this->tensor_.begin(), this->tensor_.end(), [&other](T &d) { d += other().front(); });
                 } else {
@@ -122,7 +121,7 @@ namespace NNFTW {
         Tensor operator-(const Tensor &other);
 
 //    Tensor operator*(Tensor &other);
-        [[nodiscard]] size_t size() const noexcept;
+        __NO_DISCARD__ size_t size() const noexcept;
 
         /*
          * Just a way to access the private member "tensor_"
@@ -225,9 +224,7 @@ namespace NNFTW {
 
     template<class T>
     Tensor<T> &Tensor<T>::plus(const Tensor &other) {
-
         return this->addOrSubtractInPlace(other, operation::ADD);
-
     }
 
     template<class T>
@@ -241,5 +238,5 @@ namespace NNFTW {
     }
 
 
-}; //eof namespace NNTFTW
+}; //eof namespace NNFTW
 #endif //NNFTW_TENSOR_H
